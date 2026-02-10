@@ -12,8 +12,8 @@
       <Folder Include="Controllers\Customer\" />
       <Folder Include="Infrastucture\Migrations\" />
       <Folder Include="Infrastucture\Seed\" />
-      <Folder Include="Models\Cart\" />
-      <Folder Include="Models\Order\" />
+      <Folder Include="ViewModels\Cart\" />
+      <Folder Include="ViewModels\Order\" />
       <Folder Include="Views\Admin\" />
     </ItemGroup>
 

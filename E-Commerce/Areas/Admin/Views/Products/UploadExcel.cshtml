@@ -1,44 +1,62 @@
 @model E_Commerce.Models.Admin.Product.ExcelUploadResultViewModel
 
 @{
-    ViewData["Title"] = "Upload Products via Excel";
+    ViewData["Title"] = "Upload Products";
 }
 
-<h2>Upload Products via Excel</h2>
+<div class="container my-5">
+    <div class="row justify-content-center">
+        <div class="col-lg-6">
+            <div class="card shadow-sm mb-4">
+                <div class="card-header bg-success text-white py-3">
+                    <h4 class="mb-0"><i class="bi bi-file-earmark-excel"></i> Upload Excel</h4>
+                </div>
+                <div class="card-body p-4">
+                    <p class="text-muted mb-4">
+                        Upload an Excel file (.xlsx) containing product data. The file should have columns for Name, Category, Price, and StockQuantity.
+                    </p>
 
-<form method="post" enctype="multipart/form-data">
-    <div>
-        <label>Select Excel File:</label>
-        <input type="file" name="file" accept=".xlsx,.xls" />
-    </div>
-    <div>
-        <button type="submit">Upload</button>
-        <a asp-action="Index">Back to List</a>
-    </div>
-</form>
+                    <form method="post" enctype="multipart/form-data">
+                        <div class="mb-4">
+                            <label class="form-label fw-bold">Select Excel File</label>
+                            <input type="file" name="file" accept=".xlsx,.xls" class="form-control form-control-lg" />
+                        </div>
+                        
+                        <div class="d-grid gap-2">
+                            <button type="submit" class="btn btn-success btn-lg">Upload & Process</button>
+                            <a asp-action="Index" class="btn btn-outline-secondary">Back to Products</a>
+                        </div>
+                    </form>
+                </div>
+            </div>
 
-@if (Model.InsertedCount > 0)
-{
-    <hr />
-    <div>
-        <h3>Upload Results</h3>
-        <p>Successfully inserted: @Model.InsertedCount products</p>
-    </div>
-}
-
-@if (Model.HasErrors)
-{
-    <hr />
-    <div>
-        <h3>Errors</h3>
-        <ul>
-            @foreach (var error in Model.Errors)
+            @if (Model.InsertedCount > 0)
             {
-                <li>@error</li>
+                <div class="alert alert-success d-flex align-items-center" role="alert">
+                    <i class="bi bi-check-circle-fill fs-4 me-2"></i>
+                    <div>
+                        <strong>Success!</strong> Imported @Model.InsertedCount products.
+                    </div>
+                </div>
             }
-        </ul>
+
+            @if (Model.HasErrors)
+            {
+                <div class="card border-danger">
+                    <div class="card-header bg-danger text-white">
+                        <h5 class="mb-0"><i class="bi bi-exclamation-triangle"></i> Import Errors</h5>
+                    </div>
+                    <ul class="list-group list-group-flush">
+                        @foreach (var error in Model.Errors)
+                        {
+                            <li class="list-group-item text-danger">@error</li>
+                        }
+                    </ul>
+                </div>
+            }
+        </div>
     </div>
-}
+</div>
 
 @section Scripts {
     <partial name="_ValidationScriptsPartial" />

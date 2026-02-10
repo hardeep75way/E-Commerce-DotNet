@@ -4,49 +4,54 @@
     ViewData["Title"] = "Create Product";
 }
 
-<div style="max-width: 600px; margin: 20px auto;">
-    <h2>Add New Product</h2>
-    <hr />
+<div class="container my-5">
+    <div class="row justify-content-center">
+        <div class="col-lg-8">
+            <div class="card shadow-sm">
+                <div class="card-header bg-white py-3">
+                    <h4 class="mb-0">Add New Product</h4>
+                </div>
+                <div class="card-body p-4">
+                    <form asp-action="Create" method="post">
+                        <div asp-validation-summary="ModelOnly" class="alert alert-danger mb-3"></div>
 
-    <form asp-action="Create" method="post" style="margin-top: 20px;">
-        <table style="width: 100%; border-spacing: 10px;">
-            <tr>
-                <td style="width: 150px;"><label asp-for="Name"></label></td>
-                <td>
-                    <input asp-for="Name" style="width: 100%; padding: 5px;" />
-                    <span asp-validation-for="Name" style="color: red; font-size: 12px;"></span>
-                </td>
-            </tr>
-            <tr>
-                <td><label asp-for="Category"></label></td>
-                <td>
-                    <input asp-for="Category" style="width: 100%; padding: 5px;" />
-                    <span asp-validation-for="Category" style="color: red; font-size: 12px;"></span>
-                </td>
-            </tr>
-            <tr>
-                <td><label asp-for="Price"></label></td>
-                <td>
-                    <input asp-for="Price" type="number" step="0.01" style="width: 100%; padding: 5px;" />
-                    <span asp-validation-for="Price" style="color: red; font-size: 12px;"></span>
-                </td>
-            </tr>
-            <tr>
-                <td><label asp-for="StockQuantity"></label></td>
-                <td>
-                    <input asp-for="StockQuantity" type="number" style="width: 100%; padding: 5px;" />
-                    <span asp-validation-for="StockQuantity" style="color: red; font-size: 12px;"></span>
-                </td>
-            </tr>
-            <tr>
-                <td></td>
-                <td style="padding-top: 10px;">
-                    <button type="submit" style="padding: 8px 20px; margin-right: 10px;">Save Product</button>
-                    <a asp-action="Index" style="padding: 8px 20px; text-decoration: none;">Back to List</a>
-                </td>
-            </tr>
-        </table>
-    </form>
+                        <div class="mb-3">
+                            <label asp-for="Name" class="form-label">Product Name</label>
+                            <input asp-for="Name" class="form-control" placeholder="Enter product name" />
+                            <span asp-validation-for="Name" class="text-danger small"></span>
+                        </div>
+
+                        <div class="row mb-3">
+                            <div class="col-md-6">
+                                <label asp-for="Category" class="form-label">Category</label>
+                                <input asp-for="Category" class="form-control" placeholder="e.g. Electronics" />
+                                <span asp-validation-for="Category" class="text-danger small"></span>
+                            </div>
+                            <div class="col-md-6">
+                                <label asp-for="StockQuantity" class="form-label">Stock Quantity</label>
+                                <input asp-for="StockQuantity" type="number" class="form-control" min="0" />
+                                <span asp-validation-for="StockQuantity" class="text-danger small"></span>
+                            </div>
+                        </div>
+
+                        <div class="mb-4">
+                            <label asp-for="Price" class="form-label">Price ($)</label>
+                            <div class="input-group">
+                                <span class="input-group-text">$</span>
+                                <input asp-for="Price" type="number" step="0.01" class="form-control" placeholder="0.00" />
+                            </div>
+                            <span asp-validation-for="Price" class="text-danger small"></span>
+                        </div>
+
+                        <div class="d-flex justify-content-end gap-2">
+                            <a asp-action="Index" class="btn btn-outline-secondary">Cancel</a>
+                            <button type="submit" class="btn btn-primary px-4">Save Product</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
 </div>
 
 @section Scripts {

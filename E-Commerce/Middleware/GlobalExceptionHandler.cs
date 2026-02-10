@@ -3,11 +3,7 @@ using System.Diagnostics;
 
 namespace E_Commerce.Middleware;
 
-/// <summary>
-/// Global exception handler middleware
-/// Catches all unhandled exceptions and provides user-friendly error responses
-/// Logs exceptions for debugging and monitoring
-/// </summary>
+
 public class GlobalExceptionHandler
 {
     private readonly RequestDelegate _next;
@@ -58,9 +54,7 @@ public class GlobalExceptionHandler
     }
 }
 
-/// <summary>
-/// Extension method to register global exception handler
-/// </summary>
+
 public static class GlobalExceptionHandlerExtensions
 {
     public static IApplicationBuilder UseGlobalExceptionHandler(this IApplicationBuilder app)

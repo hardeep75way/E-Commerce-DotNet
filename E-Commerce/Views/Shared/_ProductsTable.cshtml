@@ -1,27 +1,38 @@
 @model IEnumerable<E_Commerce.Models.Admin.Product.ProductListItemViewModel>
 
-<table border="1">
-    <thead>
-    <tr>
-        <th>Name</th>
-        <th>Category</th>
-        <th>Price</th>
-        <th>Stock</th>
-        <th>Action</th>
-    </tr>
-    </thead>
-    <tbody>
-    @foreach (var item in Model)
-    {
-        <tr>
-            <td>@item.Name</td>
-            <td>@item.Category</td>
-            <td>$@item.Price.ToString("F2")</td>
-            <td>@item.StockQuantity</td>
-            <td>
-                <a asp-action="Edit" asp-route-id="@item.Id">Edit</a>
-            </td>
-        </tr>
-    }
-    </tbody>
-</table>
+<div class="table-responsive">
+    <table class="table table-hover align-middle">
+        <thead class="table-light">
+            <tr>
+                <th>Name</th>
+                <th>Category</th>
+                <th class="text-end">Price</th>
+                <th class="text-center">Stock</th>
+                <th class="text-center">Action</th>
+            </tr>
+        </thead>
+        <tbody>
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td class="fw-bold">@item.Name</td>
+                <td><span class="badge bg-light text-dark border">@item.Category</span></td>
+                <td class="text-end text-price">$@item.Price.ToString("F2")</td>
+                <td class="text-center">
+                    @if(item.StockQuantity > 0)
+                    {
+                         <span class="badge bg-success">@item.StockQuantity</span>
+                    }
+                    else
+                    {
+                         <span class="badge bg-danger">Out of Stock</span>
+                    }
+                </td>
+                <td class="text-center">
+                    <a asp-action="Edit" asp-route-id="@item.Id" class="btn btn-sm btn-outline-primary">Edit</a>
+                </td>
+            </tr>
+        }
+        </tbody>
+    </table>
+</div>
