@@ -1,8 +1,7 @@
-namespace E_Commerce.Domain.Entities;
+namespace E_Commerce.Models.Customer.Cart;
 
-public class OrderItem : BaseEntity
+public class CartItemViewModel
 {
-    public int OrderId { get; set; }
     public int ProductId { get; set; }
     public string ProductName { get; set; } = string.Empty;
     public decimal Price { get; set; }

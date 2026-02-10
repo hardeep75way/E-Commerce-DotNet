@@ -1,0 +1,32 @@
+@model E_Commerce.Models.Customer.Product.CustomerProductListViewModel
+
+@if (Model.TotalCount == 0)
+{
+    <p>No products found.</p>
+}
+else
+{
+    <div style="margin-top: 20px; text-align: center;">
+        @if (Model.PageNumber > 1)
+        {
+            <a asp-action="Index" 
+               asp-route-pageNumber="@(Model.PageNumber - 1)" 
+               asp-route-pageSize="@Model.PageSize"
+               asp-route-search="@Model.Search"
+               asp-route-category="@Model.Category"
+               style="padding: 5px 15px; margin: 0 5px; text-decoration: none;">Previous</a>
+        }
+        
+        <span style="margin: 0 10px;">Page @Model.PageNumber of @Model.TotalPages (@Model.TotalCount total)</span>
+        
+        @if (Model.PageNumber < Model.TotalPages)
+        {
+            <a asp-action="Index" 
+               asp-route-pageNumber="@(Model.PageNumber + 1)" 
+               asp-route-pageSize="@Model.PageSize"
+               asp-route-search="@Model.Search"
+               asp-route-category="@Model.Category"
+               style="padding: 5px 15px; margin: 0 5px; text-decoration: none;">Next</a>
+        }
+    </div>
+}

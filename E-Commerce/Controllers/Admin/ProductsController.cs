@@ -1,33 +1,46 @@
+using E_Commerce.Application.Helpers;
 using E_Commerce.Application.Interfaces.Services;
-using E_Commerce.Models.Product;
+using E_Commerce.Models.Admin.Product;
 using Microsoft.AspNetCore.Mvc;
 
 namespace E_Commerce.Controllers.Admin;
 
-// [Area("Admin")] 
+
+[Area("Admin")]
 public class ProductsController : Controller
 {
     private readonly IProductService _service;
-    public ProductsController(IProductService service)
+    private readonly ExcelProductReader _excelReader;
+
+    public ProductsController(IProductService service, ExcelProductReader excelReader)
     {
         _service = service;
+        _excelReader = excelReader;
     }
+
     public async Task<IActionResult> Index(
         int pageNumber = 1,
         int pageSize = 10,
         string? search = null,
         string? category = null)
     {
-        var result = await _service.GetPagedAsync(
-            pageNumber, pageSize, search, category);
+        var result = await _service.GetPagedAsync(pageNumber, pageSize, search, category);
 
         var vm = result.ToListViewModel();
         vm.Search = search;
         vm.Category = category;
 
-        return View(vm.Items);
+        return View(vm);
     }
 
+
+    [HttpGet]
+    public IActionResult Create()
+    {
+        return View(new CreateProductViewModel());
+    }
+
+    [HttpPost]
     public async Task<IActionResult> Create(CreateProductViewModel model)
     {
         if (!ModelState.IsValid)
@@ -36,16 +49,28 @@ public class ProductsController : Controller
         await _service.AddProductAsync(model.ToDto());
         return RedirectToAction("Index");
     }
+
+    [HttpGet]
     public async Task<IActionResult> Edit(int id)
     {
         var product = await _service.GetByIdAsync(id);
         return View(product.ToEditViewModel());
     }
-    
+
+    [HttpPut]
+    public async Task<IActionResult> Edit(EditProductViewModel model)
+    {
+        if (!ModelState.IsValid)
+            return View(model);
+
+        await _service.UpdateAsync(model.ToDto());
+        return RedirectToAction("Index");
+    }
+
     [HttpGet]
     public IActionResult UploadExcel()
     {
-        return View();
+        return View(new ExcelUploadResultViewModel());
     }
 
     [HttpPost]
@@ -54,18 +79,12 @@ public class ProductsController : Controller
         if (file == null || file.Length == 0)
         {
             ModelState.AddModelError("", "Please upload a valid Excel file.");
-            return View();
+            return View(new ExcelUploadResultViewModel());
         }
 
-        var rows = _excelReader.ReadProducts(file); // helper
-        var result = await _productService.UploadFromExcelAsync(rows);
+        var rows = _excelReader.ReadProducts(file);
+        var result = await _service.UploadFromExcelAsync(rows);
 
-        ViewBag.InsertedCount = result.InsertedCount;
-        ViewBag.Errors = result.Errors;
-
-        return View();
+        return View(result.ToViewModel());
     }
-
-    
-    
 }

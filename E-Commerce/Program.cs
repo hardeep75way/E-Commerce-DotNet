@@ -1,14 +1,26 @@
 using E_Commerce.Application.Interfaces.Repositories;
 using E_Commerce.Application.Interfaces.Services;
 using E_Commerce.Application.Services;
+using E_Commerce.Application.Helpers;
 using E_Commerce.Infrastucture.Data;
 using E_Commerce.Infrastucture.Repositories;
+using E_Commerce.Middleware;
 using Microsoft.EntityFrameworkCore;
 
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
 builder.Services.AddControllersWithViews();
+
+builder.Services.AddSession(options =>
+{
+    options.IdleTimeout = TimeSpan.FromMinutes(30);
+    options.Cookie.HttpOnly = true;
+    options.Cookie.IsEssential = true;
+});
+
+builder.Services.AddHttpContextAccessor();
+
 var connectionString = builder.Configuration
     .GetConnectionString("DefaultConnection");
 
@@ -19,24 +31,49 @@ builder.Services.AddDbContext<AppDbContext>(options =>
         ServerVersion.AutoDetect(connectionString)
     );
 });
+
 builder.Services.AddScoped<IProductService, ProductService>();
 builder.Services.AddScoped<IProductRepository, ProductRepository>();
+builder.Services.AddScoped<ICartService, CartService>();
+builder.Services.AddScoped<IOrderService, OrderService>();
+builder.Services.AddScoped<IOrderRepository, OrderRepository>();
+builder.Services.AddScoped<ExcelProductReader>();
 var app = builder.Build();
 
-// Configure the HTTP request pipeline.
-if (!app.Environment.IsDevelopment())
+// Seed database with test data
+using (var scope = app.Services.CreateScope())
 {
+    var context = scope.ServiceProvider.GetRequiredService<AppDbContext>();
+    await DbSeeder.SeedAsync(context);
+}
+
+// Configure global exception handling
+if (app.Environment.IsDevelopment())
+{
+    // Use detailed error page in development
+    app.UseDeveloperExceptionPage();
+}
+else
+{
+    // Use custom error page in production
     app.UseExceptionHandler("/Home/Error");
-    // The default HSTS value is 30 days. You may want to change this for production scenarios, see https://aka.ms/aspnetcore-hsts.
     app.UseHsts();
 }
+
+// Add global exception handler middleware for all environments
+app.UseGlobalExceptionHandler();
 
 app.UseHttpsRedirection();
 app.UseStaticFiles();
 
 app.UseRouting();
+app.UseSession();
 
 app.UseAuthorization();
+
+app.MapControllerRoute(
+    name: "admin",
+    pattern: "{area:exists}/{controller=Products}/{action=Index}/{id?}");
 
 app.MapControllerRoute(
     name: "default",

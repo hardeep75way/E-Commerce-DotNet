@@ -1,0 +1,47 @@
+@model E_Commerce.Models.Customer.Checkout.OrderConfirmationViewModel
+
+<div style="max-width: 800px; margin: 20px auto;">
+    <h2 style="color: #28a745;">Order Placed Successfully!</h2>
+    <hr />
+
+    <div style="padding: 15px; background-color: #d4edda; border: 1px solid #c3e6cb; margin-bottom: 20px;">
+        <p style="margin: 0; font-size: 16px;">
+            <strong>Order ID:</strong> @Model.OrderId<br />
+            <strong>Order Date:</strong> @Model.OrderDate.ToString("MMMM dd, yyyy hh:mm tt")<br />
+            <strong>Status:</strong> @Model.Status
+        </p>
+    </div>
+
+    <h3>Order Details</h3>
+    <table style="width: 100%; border-collapse: collapse; margin: 20px 0;">
+        <thead>
+            <tr style="background-color: #e0e0e0;">
+                <th style="padding: 10px; text-align: left; border: 1px solid #ccc;">Product</th>
+                <th style="padding: 10px; text-align: right; border: 1px solid #ccc;">Price</th>
+                <th style="padding: 10px; text-align: center; border: 1px solid #ccc;">Quantity</th>
+                <th style="padding: 10px; text-align: right; border: 1px solid #ccc;">Subtotal</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var item in Model.Items)
+            {
+                <tr>
+                    <td style="padding: 10px; border: 1px solid #ccc;">@item.ProductName</td>
+                    <td style="padding: 10px; text-align: right; border: 1px solid #ccc;">$@item.Price.ToString("F2")</td>
+                    <td style="padding: 10px; text-align: center; border: 1px solid #ccc;">@item.Quantity</td>
+                    <td style="padding: 10px; text-align: right; border: 1px solid #ccc;">$@item.Subtotal.ToString("F2")</td>
+                </tr>
+            }
+        </tbody>
+        <tfoot>
+            <tr style="background-color: #f5f5f5; font-weight: bold;">
+                <td colspan="3" style="padding: 10px; text-align: right; border: 1px solid #ccc;">Total:</td>
+                <td style="padding: 10px; text-align: right; border: 1px solid #ccc;">$@Model.TotalAmount.ToString("F2")</td>
+            </tr>
+        </tfoot>
+    </table>
+
+    <div style="margin-top: 30px;">
+        <a asp-area="Customer" asp-controller="Products" asp-action="Index" style="padding: 10px 20px; text-decoration: none; background-color: #007bff; color: white;">Continue Shopping</a>
+    </div>
+</div>

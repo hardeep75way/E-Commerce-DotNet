@@ -1,4 +1,4 @@
-namespace E_Commerce.Models.Product;
+namespace E_Commerce.Models.Admin.Product;
 
 public class ProductListViewModel
 {

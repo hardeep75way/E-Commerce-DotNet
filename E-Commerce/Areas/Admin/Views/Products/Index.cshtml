@@ -1,0 +1,33 @@
+@model E_Commerce.Models.Admin.Product.ProductListViewModel
+
+@{
+    ViewData["Title"] = "Products";
+}
+
+<h2>Products</h2>
+
+<div>
+    <a asp-action="Create">Add New Product</a> |
+    <a asp-action="UploadExcel">Upload Excel</a>
+</div>
+
+<hr />
+
+<form method="get" asp-action="Index">
+    <div>
+        <input type="text" name="search" value="@Model.Search" placeholder="Search by name..." />
+        <input type="text" name="category" value="@Model.Category" placeholder="Filter by category..." />
+        <input type="hidden" name="pageNumber" value="1" />
+        <input type="hidden" name="pageSize" value="@Model.PageSize" />
+        <button type="submit">Search</button>
+        <a asp-action="Index">Clear</a>
+    </div>
+</form>
+
+<hr />
+
+<partial name="_ProductsTable" model="Model.Items" />
+
+<hr />
+
+<partial name="_Pagination" model="Model" />

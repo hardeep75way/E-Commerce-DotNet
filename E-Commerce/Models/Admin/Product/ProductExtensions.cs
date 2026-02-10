@@ -1,7 +1,7 @@
 using E_Commerce.Application.DTOs;
 
 
-namespace E_Commerce.Models.Product;
+namespace E_Commerce.Models.Admin.Product;
 
 public static class ProductViewModelExtension
 {

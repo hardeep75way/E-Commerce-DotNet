@@ -1,23 +1,24 @@
 using System.ComponentModel.DataAnnotations;
 
-namespace E_Commerce.Models.Product;
+namespace E_Commerce.Models.Admin.Product;
 
 public class EditProductViewModel
 {
     public int Id { get; set; }
-
+    
+    [Display(Name = "Product Name")]
     [Required]
-    [StringLength(100)]
     public string Name { get; set; } = string.Empty;
 
+    [Display(Name = "Category")]
     [Required]
-    [StringLength(50)]
     public string Category { get; set; } = string.Empty;
 
-    [Range(0.01, double.MaxValue)]
+    [Display(Name = "Price")]
+    [Required]
     public decimal Price { get; set; }
 
-    [Range(0, int.MaxValue)]
+    [Display(Name = "Stock Quantity")]
+    [Required]
     public int StockQuantity { get; set; }
-
 }

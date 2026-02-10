@@ -1,8 +1,13 @@
-namespace E_Commerce.Domain.Entities;
+namespace E_Commerce.Application.DTOs;
 
-public class OrderItem : BaseEntity
+public class CartDto
 {
-    public int OrderId { get; set; }
+    public List<CartItemDto> Items { get; set; } = new();
+    public decimal TotalAmount { get; set; }
+}
+
+public class CartItemDto
+{
     public int ProductId { get; set; }
     public string ProductName { get; set; } = string.Empty;
     public decimal Price { get; set; }

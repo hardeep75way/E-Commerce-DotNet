@@ -9,4 +9,5 @@ public interface IProductService
     Task UpdateAsync(UpdateProductDto dto);
     Task<Product> GetByIdAsync(int id);
     Task<ProductListDto> GetPagedAsync(int pageNumber, int pageSize, string? search, string? category);
+    Task<ExcelUploadResultDto> UploadFromExcelAsync(IEnumerable<ExcelProductRowDto> rows);
 }

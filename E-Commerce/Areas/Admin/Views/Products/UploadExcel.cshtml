@@ -1,0 +1,45 @@
+@model E_Commerce.Models.Admin.Product.ExcelUploadResultViewModel
+
+@{
+    ViewData["Title"] = "Upload Products via Excel";
+}
+
+<h2>Upload Products via Excel</h2>
+
+<form method="post" enctype="multipart/form-data">
+    <div>
+        <label>Select Excel File:</label>
+        <input type="file" name="file" accept=".xlsx,.xls" />
+    </div>
+    <div>
+        <button type="submit">Upload</button>
+        <a asp-action="Index">Back to List</a>
+    </div>
+</form>
+
+@if (Model.InsertedCount > 0)
+{
+    <hr />
+    <div>
+        <h3>Upload Results</h3>
+        <p>Successfully inserted: @Model.InsertedCount products</p>
+    </div>
+}
+
+@if (Model.HasErrors)
+{
+    <hr />
+    <div>
+        <h3>Errors</h3>
+        <ul>
+            @foreach (var error in Model.Errors)
+            {
+                <li>@error</li>
+            }
+        </ul>
+    </div>
+}
+
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+}
