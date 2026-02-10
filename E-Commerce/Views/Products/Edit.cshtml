@@ -1,0 +1,42 @@
+@model E_Commerce.Models.Product.EditProductViewModel
+
+@{
+ViewData["Title"] = "Edit Product";
+}
+
+<h2>Edit Product</h2>
+
+<form asp-action="Edit" method="post">
+    <input type="hidden" asp-for="Id" />
+
+    <div>
+        <label asp-for="Name"></label>
+        <input asp-for="Name" />
+        <span asp-validation-for="Name"></span>
+    </div>
+
+    <div>
+        <label asp-for="Category"></label>
+        <input asp-for="Category" />
+        <span asp-validation-for="Category"></span>
+    </div>
+
+    <div>
+        <label asp-for="Price"></label>
+        <input asp-for="Price" />
+        <span asp-validation-for="Price"></span>
+    </div>
+
+    <div>
+        <label asp-for="StockQuantity"></label>
+        <input asp-for="StockQuantity" />
+        <span asp-validation-for="StockQuantity"></span>
+    </div>
+
+    <button type="submit">Update</button>
+    <a asp-action="Index">Cancel</a>
+</form>
+
+@section Scripts {
+<partial name="_ValidationScriptsPartial" />
+}

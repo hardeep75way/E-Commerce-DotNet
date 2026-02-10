@@ -1,0 +1,27 @@
+@model IEnumerable<E_Commerce.Models.Product.ProductListItemViewModel>
+
+<table border="1">
+    <thead>
+    <tr>
+        <th>Name</th>
+        <th>Category</th>
+        <th>Price</th>
+        <th>Stock</th>
+        <th>Action</th>
+    </tr>
+    </thead>
+    <tbody>
+    @foreach (var item in Model)
+    {
+        <tr>
+            <td>@item.Name</td>
+            <td>@item.Category</td>
+            <td>@item.Price</td>
+            <td>@item.StockQuantity</td>
+            <td>
+                <a asp-action="Edit" asp-route-id="@item.Id">Edit</a>
+            </td>
+        </tr>
+    }
+    </tbody>
+</table>
