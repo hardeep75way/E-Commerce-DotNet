@@ -6,6 +6,7 @@ namespace E_Commerce.Controllers.Customer;
 
 
 [Area("Customer")]
+[Microsoft.AspNetCore.Authorization.Authorize]
 public class CheckoutController : Controller
 {
     private readonly IOrderService _orderService;

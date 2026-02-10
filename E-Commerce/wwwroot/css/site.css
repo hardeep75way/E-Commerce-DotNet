@@ -8,15 +8,50 @@ html {
   }
 }
 
-.btn:focus, .btn:active:focus, .btn-link.nav-link:focus, .form-control:focus, .form-check-input:focus {
-  box-shadow: 0 0 0 0.1rem white, 0 0 0 0.25rem #258cfb;
-}
-
-html {
-  position: relative;
-  min-height: 100%;
-}
-
 body {
   margin-bottom: 60px;
+  color: #333;
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+  background-color: #f8f9fa;
+}
+
+/* Navbar Tweaks */
+.navbar-brand {
+    font-weight: 600;
+}
+
+/* Card Styling */
+.card {
+    border: none;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+    margin-bottom: 1.5rem;
+}
+
+.card-header {
+    background-color: #fff;
+    border-bottom: 1px solid #eee;
+    font-weight: 600;
+}
+
+/* Table Styling */
+.table th {
+    font-weight: 600;
+    color: #555;
+    border-top: none;
+}
+
+.table td {
+    vertical-align: middle;
+}
+
+/* Form Controls */
+.form-control:focus {
+    border-color: #80bdff;
+    box-shadow: 0 0 0 0.2rem rgba(0,123,255,.25);
+}
+
+/* Utilities */
+.text-price {
+    font-weight: 600;
+    color: #2c3e50;
 }

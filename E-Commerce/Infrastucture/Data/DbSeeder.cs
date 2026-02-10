@@ -88,5 +88,28 @@ public static class DbSeeder
             await context.Products.AddRangeAsync(products);
             await context.SaveChangesAsync();
         }
+        
+
+   
+        if (!context.Users.Any(u => u.Role == Domain.Enums.UserRole.Admin))
+        {
+            var adminUser = new User
+            {
+                Name = "Admin User",
+                Email = "admin@ecommerce.com",
+                Role = Domain.Enums.UserRole.Admin,
+                CreatedAt = DateTime.UtcNow,
+                UpdatedAt = DateTime.UtcNow
+            };
+
+            using (var sha256 = System.Security.Cryptography.SHA256.Create())
+            {
+                var hashedBytes = sha256.ComputeHash(System.Text.Encoding.UTF8.GetBytes("Admin123!"));
+                adminUser.PasswordHash = Convert.ToBase64String(hashedBytes);
+            }
+
+            context.Users.Add(adminUser);
+            await context.SaveChangesAsync();
+        }
     }
 }

@@ -21,6 +21,18 @@ builder.Services.AddSession(options =>
 
 builder.Services.AddHttpContextAccessor();
 
+// Add Authentication
+builder.Services.AddAuthentication(Microsoft.AspNetCore.Authentication.Cookies.CookieAuthenticationDefaults.AuthenticationScheme)
+    .AddCookie(options =>
+    {
+        options.LoginPath = "/Account/Login";
+        options.AccessDeniedPath = "/Account/AccessDenied";
+        options.ExpireTimeSpan = TimeSpan.FromMinutes(60);
+    });
+
+builder.Services.AddScoped<IAuthService, AuthService>();
+
+
 var connectionString = builder.Configuration
     .GetConnectionString("DefaultConnection");
 
@@ -69,6 +81,7 @@ app.UseStaticFiles();
 app.UseRouting();
 app.UseSession();
 
+app.UseAuthentication();
 app.UseAuthorization();
 
 app.MapControllerRoute(

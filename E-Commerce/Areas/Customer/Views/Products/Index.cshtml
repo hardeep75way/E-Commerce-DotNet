@@ -1,88 +1,89 @@
 @model E_Commerce.Models.Customer.Product.CustomerProductListViewModel
 
-<div style="max-width: 1000px; margin: 20px auto;">
-    <h2>Products</h2>
-    <hr />
+<div class="container my-4">
+    <div class="d-flex justify-content-between align-items-center mb-4">
+        <h2>Products</h2>
+    </div>
 
-    <form method="get" style="margin-bottom: 20px; padding: 15px; background-color: #f5f5f5;">
-        <table style="width: 100%;">
-            <tr>
-                <td style="width: 200px;">
-                    <label>Search by Name:</label>
-                </td>
-                <td>
-                    <input type="text" name="search" value="@Model.Search" placeholder="Enter product name" style="width: 300px; padding: 5px;" />
-                </td>
-                <td rowspan="2" style="text-align: right; vertical-align: middle;">
-                    <button type="submit" style="padding: 8px 20px;">Search</button>
-                    <a asp-action="Index" style="padding: 8px 20px; text-decoration: none;">Clear</a>
-                </td>
-            </tr>
-            <tr>
-                <td>
-                    <label>Filter by Category:</label>
-                </td>
-                <td>
-                    <input type="text" name="category" value="@Model.Category" placeholder="Enter category" style="width: 300px; padding: 5px;" />
-                </td>
-            </tr>
-        </table>
-    </form>
+    <div class="card mb-4">
+        <div class="card-body">
+            <form method="get" class="row g-3">
+                <div class="col-md-5">
+                    <label class="form-label">Search by Name</label>
+                    <input type="text" name="search" value="@Model.Search" class="form-control" placeholder="Search products..." />
+                </div>
+                <div class="col-md-5">
+                    <label class="form-label">Filter by Category</label>
+                    <input type="text" name="category" value="@Model.Category" class="form-control" placeholder="Category..." />
+                </div>
+                <div class="col-md-2 d-flex align-items-end">
+                    <button type="submit" class="btn btn-primary w-100">Search</button>
+                    <a asp-action="Index" class="btn btn-outline-secondary w-100 ms-2">Clear</a>
+                </div>
+            </form>
+        </div>
+    </div>
 
     @if (!Model.Products.Any())
     {
-        <p>No products found.</p>
+        <div class="alert alert-info">No products found matching your criteria.</div>
     }
     else
     {
-        <p>Showing @Model.Products.Count() of @Model.TotalCount products</p>
+        <p class="text-muted mb-2">Showing @Model.Products.Count() of @Model.TotalCount products</p>
         
-        <table style="width: 100%; border-collapse: collapse; margin-top: 10px;">
-            <thead>
-                <tr style="background-color: #e0e0e0;">
-                    <th style="padding: 10px; text-align: left; border: 1px solid #ccc;">Product Name</th>
-                    <th style="padding: 10px; text-align: left; border: 1px solid #ccc;">Category</th>
-                    <th style="padding: 10px; text-align: right; border: 1px solid #ccc;">Price</th>
-                    <th style="padding: 10px; text-align: center; border: 1px solid #ccc;">Stock</th>
-                    <th style="padding: 10px; text-align: center; border: 1px solid #ccc;">Actions</th>
-                </tr>
-            </thead>
-            <tbody>
-                @foreach (var product in Model.Products)
-                {
-                    <tr>
-                        <td style="padding: 10px; border: 1px solid #ccc;">@product.Name</td>
-                        <td style="padding: 10px; border: 1px solid #ccc;">@product.Category</td>
-                        <td style="padding: 10px; text-align: right; border: 1px solid #ccc;">$@product.Price.ToString("F2")</td>
-                        <td style="padding: 10px; text-align: center; border: 1px solid #ccc;">
-                            @if (product.InStock)
-                            {
-                                <span style="color: green;">@product.StockQuantity</span>
-                            }
-                            else
-                            {
-                                <span style="color: red;">Out of Stock</span>
-                            }
-                        </td>
-                        <td style="padding: 10px; text-align: center; border: 1px solid #ccc;">
-                            @if (product.InStock)
-                            {
-                                <form asp-area="Customer" asp-controller="Cart" asp-action="AddToCart" method="post" style="display: inline;">
-                                    <input type="hidden" name="productId" value="@product.Id" />
-                                    <input type="number" name="quantity" value="1" min="1" max="@product.StockQuantity" style="width: 50px; padding: 3px;" />
-                                    <button type="submit" style="padding: 5px 15px; margin-left: 5px;">Add to Cart</button>
-                                </form>
-                            }
-                            else
-                            {
-                                <span style="color: #999;">Unavailable</span>
-                            }
-                        </td>
-                    </tr>
-                }
-            </tbody>
-        </table>
+        <div class="card">
+            <div class="table-responsive">
+                <table class="table table-hover mb-0">
+                    <thead class="table-light">
+                        <tr>
+                            <th>Product Name</th>
+                            <th>Category</th>
+                            <th class="text-end">Price</th>
+                            <th class="text-center">Stock</th>
+                            <th class="text-center">Actions</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach (var product in Model.Products)
+                        {
+                            <tr>
+                                <td>@product.Name</td>
+                                <td><span class="badge bg-light text-dark border">@product.Category</span></td>
+                                <td class="text-end text-price">$@product.Price.ToString("F2")</td>
+                                <td class="text-center">
+                                    @if (product.InStock)
+                                    {
+                                        <span class="badge bg-success">In Stock (@product.StockQuantity)</span>
+                                    }
+                                    else
+                                    {
+                                        <span class="badge bg-danger">Out of Stock</span>
+                                    }
+                                </td>
+                                <td class="text-center">
+                                    @if (product.InStock)
+                                    {
+                                        <form asp-area="Customer" asp-controller="Cart" asp-action="AddToCart" method="post" class="d-flex justify-content-center align-items-center gap-2">
+                                            <input type="hidden" name="productId" value="@product.Id" />
+                                            <input type="number" name="quantity" value="1" min="1" max="@product.StockQuantity" class="form-control form-control-sm" style="width: 70px;" />
+                                            <button type="submit" class="btn btn-sm btn-primary">Add</button>
+                                        </form>
+                                    }
+                                    else
+                                    {
+                                        <button class="btn btn-sm btn-secondary" disabled>Unavailable</button>
+                                    }
+                                </td>
+                            </tr>
+                        }
+                    </tbody>
+                </table>
+            </div>
+        </div>
         
-        <partial name="_CustomerPagination" model="Model" />
+        <div class="mt-4">
+            <partial name="_CustomerPagination" model="Model" />
+        </div>
     }
 </div>
