@@ -33,7 +33,7 @@ A robust E-Commerce web application built with ASP.NET Core MVC, Entity Framewor
 
 ### Prerequisites
 - [.NET 8 SDK](https://dotnet.microsoft.com/download)
-- [MySQL Server](https://dev.mysql.com/downloads/mysql/) or MariaDB
+- [MySQL Server](https://dev.mysql.com/downloads/mysql/) 
 
 ### 1. Database Configuration
 Ensure your connection string in `appsettings.json` points to your MySQL instance:
@@ -62,15 +62,6 @@ dotnet ef database update
 dotnet run
 ```
 Access the application at `https://localhost:7196` (or the port shown in your terminal).
-
-## 🔐 Default Credentials
-
-The application seeds a default Admin account on first run:
-
-| Role  | Email | Password |
-|-------|-------|----------|
-| **Admin** | `admin@ecommerce.com` | `Admin123!` |
-| **Customer** | *(Register a new account)* | *(User defined)* |
 
 ## 📂 Project Structure
 
